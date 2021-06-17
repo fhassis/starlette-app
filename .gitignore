@@ -1,0 +1,23 @@
+# Compiled source #
+###################
+*.pyc
+
+# IDE Files #
+#################
+/.idea
+
+# Log Files #
+#############
+*.log
+
+# VirtualEnv #
+##############
+.venv
+
+# SSL Certificates #
+####################
+ssl/certificates
+
+# Pipfile.lock #
+################
+Pipfile.lock
