@@ -1,6 +1,6 @@
 from hmac import new
 from hashlib import sha256
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 from orjson import loads, dumps
 
@@ -47,18 +47,20 @@ class JWT(object):
         ).decode('utf-8')
 
 
-if __name__ == '__main__':
-
-    payload = {
-        'userId': '55395427-265a-4166-ac93-da6879edb57a',
-        'exp': (datetime.now() + timedelta(minutes=5)).timestamp(),
-    }
-    secret_key = '52d3f853c19f8b63c0918c126422aa2d99b1aef33ec63d41dea4fadf19406e54'
-
-    jwt = JWT(secret_key)
-
-    token = jwt.create_token(payload)
-    print(token)
-
-    decoded_token = jwt.validate_token(token)
-    print(decoded_token)
+# if __name__ == '__main__':
+#
+#     from datetime import timedelta
+#
+#     payload = {
+#         'userId': '55395427-265a-4166-ac93-da6879edb57a',
+#         'exp': (datetime.now() + timedelta(minutes=5)).timestamp(),
+#     }
+#     secret_key = '52d3f853c19f8b63c0918c126422aa2d99b1aef33ec63d41dea4fadf19406e54'
+#
+#     jwt = JWT(secret_key)
+#
+#     token = jwt.create_token(payload)
+#     print(token)
+#
+#     decoded_token = jwt.validate_token(token)
+#     print(decoded_token)
