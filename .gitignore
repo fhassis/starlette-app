@@ -21,3 +21,7 @@ ssl/certificates
 # Pipfile.lock #
 ################
 Pipfile.lock
+
+# Configuration File #
+######################
+app_config.env

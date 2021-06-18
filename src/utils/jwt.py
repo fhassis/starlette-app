@@ -16,14 +16,16 @@ class JWT(object):
     Implements JWT tokens using HS256 algorithm.
     """
     secret_key: bytes
+    expiration_days: int
     b64_header: str
 
-    def __init__(self, secret_key: str):
+    def __init__(self, secret_key: str, expiration_days: int):
         self.secret_key = secret_key.encode()
+        self.expiration_days = expiration_days
         self.b64_header = urlsafe_b64encode(dumps({'typ': 'JWT', 'alg': 'HS256'})).decode('utf-8')
 
     def create_token(self, username: str) -> str:
-        exp_time = int((datetime.now(timezone.utc) + timedelta(days=7)).timestamp())
+        exp_time = int((datetime.now(timezone.utc) + timedelta(days=self.expiration_days)).timestamp())
         payload: Payload = dict(sub=username, exp=exp_time)
         b64_payload = urlsafe_b64encode(dumps(payload)).decode('utf-8')
         b64_signature = self._generate_signature(self.b64_header, b64_payload)
