@@ -35,15 +35,14 @@ class JWT(object):
         b64_header, b64_payload, b64_signature = token.split('.')
         b64_signature_checker = self._generate_signature(b64_header, b64_payload)
 
-        # load payload to check the field 'exp'
         payload: Payload = loads(urlsafe_b64decode(b64_payload))
         unix_time_now = datetime.now(timezone.utc).timestamp()
 
         if payload.get('exp') and payload['exp'] < unix_time_now:
-            raise Exception('JWT Token Expired')
+            raise TimeoutError('JWT Token Expired')
 
         if b64_signature_checker != b64_signature:
-            raise Exception('JWT Token Invalid Signature')
+            raise ValueError('JWT Token Invalid Signature')
 
         return payload
 
