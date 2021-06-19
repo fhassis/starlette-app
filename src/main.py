@@ -10,14 +10,22 @@ def startup():
     """
     Method executed as a callback on server startup.
     """
-    print('Starting up server...')
+    # import configurations
+    config = Config('config/app_config.env')
+
+    # store valid user information in app state
+    app.state.VALID_USERNAME = config.get('VALID_USERNAME')
+    app.state.VALID_PASSWORD = config.get('VALID_PASSWORD')
+
+    # stores JWT object in app state
+    app.state.jwt = JWT(config.get('SECRET_KEY'), config.get('JWT_EXPIRATION_DAYS', cast=int))
 
 
 def shutdown():
     """
     Method executed as a callback on server shutdown.
     """
-    print('Shutting down server...')
+    pass
 
 
 # defines the application routes
@@ -26,20 +34,9 @@ routes = [
     Route('/authenticate', endpoint=authentication.authenticate, methods=['POST'])
 ]
 
-# import configurations
-config = Config('config/app_config.env')
-
 # creates the application
 app = Starlette(
-    debug=config.get('DEBUG', cast=bool),
     routes=routes,
     on_startup=[startup],
     on_shutdown=[shutdown]
 )
-
-# store information in app state
-app.state.config = config
-
-# creates JWT object for authentication
-app.state.jwt = JWT(config.get('SECRET_KEY'), config.get('JWT_EXPIRATION_DAYS', cast=int))
-
