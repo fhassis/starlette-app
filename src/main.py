@@ -1,9 +1,12 @@
 from starlette.applications import Starlette
 from starlette.routing import Route
 from starlette.config import Config
+from starlette.middleware import Middleware
+from starlette.middleware.authentication import AuthenticationMiddleware
 
 from src.controllers import hello, authentication
 from src.utils.jwt import JWT
+from src.utils.starlette import JwtAuthBackend
 
 
 def startup():
@@ -30,13 +33,19 @@ def shutdown():
 
 # defines the application routes
 routes = [
-    Route('/', endpoint=hello.hello_world),
-    Route('/authenticate', endpoint=authentication.authenticate, methods=['POST'])
+    Route('/', endpoint=hello.say_hello),
+    Route('/login', endpoint=authentication.login, methods=['POST'])
+]
+
+# configures application middlewares
+middleware = [
+    Middleware(AuthenticationMiddleware, backend=JwtAuthBackend())
 ]
 
 # creates the application
 app = Starlette(
     routes=routes,
+    middleware=middleware,
     on_startup=[startup],
     on_shutdown=[shutdown]
 )

@@ -6,7 +6,7 @@ from orjson import loads
 from src.utils.starlette import ORJSONResponse
 
 
-async def authenticate(request: Request):
+async def login(request: Request):
     """
     Authenticates the user and returns a JWT token if successful.
     """

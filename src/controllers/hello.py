@@ -1,7 +1,9 @@
 from starlette.requests import Request
+from starlette.authentication import requires
 
 from src.utils.starlette import ORJSONResponse
 
 
-async def hello_world(request: Request):
-    return ORJSONResponse({'hello': 'World!'})
+@requires('authenticated')
+async def say_hello(request: Request):
+    return ORJSONResponse({'msg': f'Hello {request.user.display_name}!'})
