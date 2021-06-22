@@ -15,6 +15,11 @@ class ORJSONResponse(Response):
 
 class JwtAuthBackend(AuthenticationBackend):
     async def authenticate(self, request: Request):
+
+        # skip JWT authentication on login endpoint
+        if request.url.path == '/login':
+            return
+
         try:
             auth = request.headers['Authorization']
             scheme, token = auth.split()
