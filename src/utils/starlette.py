@@ -15,22 +15,15 @@ class ORJSONResponse(Response):
 
 class JwtAuthBackend(AuthenticationBackend):
     async def authenticate(self, request: Request):
-
-        # skip JWT authentication on login endpoint
-        if request.url.path == '/login':
-            return
-
+        if 'Authorization' not in request.headers:
+            return None
+        auth = request.headers['Authorization']
         try:
-            auth = request.headers['Authorization']
             scheme, token = auth.split()
             if scheme != 'Bearer':
-                raise
+                return None
             payload: Payload = request.app.state.jwt.validate_token(token)
-        except TimeoutError:
-            raise AuthenticationError('Token expired')
-        except ValueError:
-            raise AuthenticationError('Invalid token signature')
-        except Exception:
-            raise AuthenticationError('Invalid Authorization header')
+        except Exception as exc:
+            raise AuthenticationError(str(exc))
 
         return AuthCredentials(['authenticated']), SimpleUser(payload['sub'])

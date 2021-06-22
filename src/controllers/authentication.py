@@ -10,15 +10,16 @@ async def login(request: Request):
     """
     Authenticates the user and returns a JWT token if successful.
     """
+    body: bytes = await request.body()
     try:
-        # parses the request
-        body: bytes = await request.body()
         data = loads(body)
+        username = data['username']
+        password = data['password']
     except:
         return PlainTextResponse('Invalid authentication data', HTTP_400_BAD_REQUEST)
 
     # check user authentication
-    if data['username'] == request.app.state.VALID_USERNAME and data['password'] == request.app.state.VALID_PASSWORD:
+    if username == request.app.state.VALID_USERNAME and password == request.app.state.VALID_PASSWORD:
         # create a JWT token and send to the user
         token = request.app.state.jwt.create_token(data['username'])
         return ORJSONResponse(dict(token=token))
