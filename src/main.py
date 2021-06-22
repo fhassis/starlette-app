@@ -3,6 +3,7 @@ from starlette.routing import Route
 from starlette.config import Config
 from starlette.middleware import Middleware
 from starlette.middleware.authentication import AuthenticationMiddleware
+from starlette.middleware.cors import CORSMiddleware
 
 from src.controllers import hello, authentication
 from src.utils.jwt import JWT
@@ -33,13 +34,21 @@ def shutdown():
 
 # defines the application routes
 routes = [
+    Route('/login', endpoint=authentication.login, methods=['POST']),
     Route('/', endpoint=hello.say_hello),
-    Route('/login', endpoint=authentication.login, methods=['POST'])
 ]
 
 # configures application middlewares
 middleware = [
-    Middleware(AuthenticationMiddleware, backend=JwtAuthBackend())
+    Middleware(
+        CORSMiddleware,
+        allow_origins=['*'],
+        allow_credentials=True,
+        allow_methods=['*'],
+        allow_headers=['*'],
+        expose_headers=['*']
+    ),
+    Middleware(AuthenticationMiddleware, backend=JwtAuthBackend()),
 ]
 
 # creates the application
