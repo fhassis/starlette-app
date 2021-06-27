@@ -1,4 +1,0 @@
-worker_class = "asyncio"
-bind = "127.0.0.1:8000"
-certfile = "ssl/certificates/cert.pem"
-keyfile = "ssl/certificates/key.pem"

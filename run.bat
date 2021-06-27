@@ -1,3 +1,3 @@
-pipenv run python -m hypercorn src/main:app -c config/hypercorn.toml
+pipenv run python -m uvicorn src.main:app
 
 pause

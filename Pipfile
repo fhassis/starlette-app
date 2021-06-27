@@ -6,7 +6,8 @@ name = "pypi"
 [packages]
 starlette = "*"
 orjson = "*"
-hypercorn = "*"
+sse-starlette = "*"
+uvicorn = {extras = ["standard"], version = "*"}
 
 [dev-packages]
 
