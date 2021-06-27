@@ -4,6 +4,7 @@ from starlette.config import Config
 from starlette.middleware import Middleware
 from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.middleware.cors import CORSMiddleware
+from asyncio import Queue
 
 from src.controllers import hello, authentication, sse
 from src.utils.jwt import JWT
@@ -24,6 +25,9 @@ def startup():
     # stores JWT object in app state
     app.state.jwt = JWT(config.get('SECRET_KEY'), config.get('JWT_EXPIRATION_DAYS', cast=int))
 
+    # creates a message queue
+    app.state.msg_queue = Queue()
+
 
 def shutdown():
     """
@@ -36,7 +40,8 @@ def shutdown():
 routes = [
     Route('/login', endpoint=authentication.login, methods=['POST']),
     Route('/', endpoint=hello.say_hello),
-    Route('/sse', endpoint=sse.subscribe)
+    Route('/sse', endpoint=sse.subscribe),
+    Route('/test_sse', endpoint=sse.test_sse),
 ]
 
 # configures application middlewares
