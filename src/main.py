@@ -1,12 +1,12 @@
 from starlette.applications import Starlette
-from starlette.routing import Route
+from starlette.routing import Route, WebSocketRoute
 from starlette.config import Config
 from starlette.middleware import Middleware
 from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from asyncio import Queue
 
-from src.controllers import hello, authentication, sse
+from src.controllers import hello, authentication, sse, ws
 from src.utils.jwt import JWT
 from src.utils.starlette import JwtAuthBackend
 
@@ -42,6 +42,7 @@ routes = [
     Route('/', endpoint=hello.say_hello),
     Route('/sse', endpoint=sse.subscribe),
     Route('/test_sse', endpoint=sse.test_sse),
+    WebSocketRoute('/ws', endpoint=ws.ws_handler)
 ]
 
 # configures application middlewares
