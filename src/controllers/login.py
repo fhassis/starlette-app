@@ -3,8 +3,6 @@ from starlette.responses import PlainTextResponse
 from starlette.status import HTTP_401_UNAUTHORIZED, HTTP_400_BAD_REQUEST
 from orjson import loads
 
-from src.utils.starlette import ORJSONResponse
-
 
 async def login(request: Request):
     """
@@ -22,6 +20,6 @@ async def login(request: Request):
     if username == request.app.state.VALID_USERNAME and password == request.app.state.VALID_PASSWORD:
         # create a JWT token and send to the user
         token = request.app.state.jwt.create_token(data['username'])
-        return ORJSONResponse(dict(token=token))
+        return PlainTextResponse(token)
     else:
         return PlainTextResponse('Invalid username or password', HTTP_401_UNAUTHORIZED)

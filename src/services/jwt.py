@@ -62,20 +62,3 @@ class JWT(object):
                 digestmod=sha256
             ).digest()
         ).decode('utf-8')
-
-
-# if __name__ == '__main__':
-#
-#     username = 'someusername'
-#     secret_key = '52d3f853c19f8b63c0918c126422aa2d99b1aef33ec63d41dea4fadf19406e54'
-#
-#     # create jwt object
-#     jwt = JWT(secret_key)
-#
-#     # test token creation
-#     token = jwt.create_token(username)
-#     print(token)
-#
-#     # test token validation
-#     decoded_token = jwt.validate_token(token)
-#     print(decoded_token)

@@ -1,6 +1,8 @@
 from starlette.websockets import WebSocket, WebSocketDisconnect
+from starlette.authentication import requires
 
 
+@requires('authenticated')
 async def ws_handler(websocket: WebSocket):
     await websocket.accept()
     try:

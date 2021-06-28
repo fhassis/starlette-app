@@ -6,9 +6,9 @@ from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from asyncio import Queue
 
-from src.controllers import hello, authentication, sse, ws
-from src.utils.jwt import JWT
-from src.utils.starlette import JwtAuthBackend
+from src.controllers import hello, login, sse, ws
+from src.services.jwt import JWT
+from src.utils.JwtAuthBackend import JwtAuthBackend
 
 
 def startup():
@@ -38,9 +38,9 @@ def shutdown():
 
 # defines the application routes
 routes = [
-    Route('/login', endpoint=authentication.login, methods=['POST']),
-    Route('/', endpoint=hello.say_hello),
-    Route('/sse', endpoint=sse.subscribe),
+    Route('/login', endpoint=login.login, methods=['POST']),
+    Route('/hello', endpoint=hello.hello_user),
+    Route('/sse', endpoint=sse.connect),
     Route('/test_sse', endpoint=sse.test_sse),
     WebSocketRoute('/ws', endpoint=ws.ws_handler)
 ]
