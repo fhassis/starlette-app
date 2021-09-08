@@ -14,10 +14,6 @@
 ##############
 .venv
 
-# SSL Certificates #
-####################
-ssl/certificates
-
 # Pipfile.lock #
 ################
 Pipfile.lock
