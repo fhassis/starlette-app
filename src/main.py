@@ -39,6 +39,7 @@ def shutdown():
 # defines the application routes
 routes = [
     Route('/login', endpoint=login.login, methods=['POST']),
+    Route('/', endpoint=hello.home),
     Route('/hello', endpoint=hello.hello_user),
     Route('/sse', endpoint=sse.connect),
     Route('/test_sse', endpoint=sse.test_sse),
