@@ -8,7 +8,7 @@ starlette = "*"
 orjson = "*"
 sse-starlette = "*"
 uvicorn = {extras = ["standard"], version = "*"}
-hypercorn = "*"
+hypercorn = {extras = ["h3"], version = "*"}
 
 [dev-packages]
 
